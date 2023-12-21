@@ -17,13 +17,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        LinearLayout backbroundmain;
 
+        LinearLayout backbroundmain;
         EditText edtweight,edtfheight,edtiheight = null;
         TextView textResult;
         TextView textbmi;
         Button btncalculate;
-
         edtweight = findViewById(R.id.edtweight);
         edtfheight = findViewById(R.id.edtfheight);
         edtiheight = findViewById(R.id.edtiheight);
@@ -38,30 +37,30 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
-              int wt = Integer.parseInt(finalEdtweight.getText().toString()) ;
-               int ft =Integer.parseInt(finalEdtfheight.getText().toString())  ;
-               int in =Integer.parseInt(finalEdtiheight.getText().toString())  ;
+                if (!finalEdtfheight.getText().toString().equals("") && !finalEdtweight.getText().toString().equals("") && !finalEdtiheight.getText().toString().equals("")) {
+                    int wt = Integer.parseInt(finalEdtweight.getText().toString());
+                    int ft = Integer.parseInt(finalEdtfheight.getText().toString());
+                    int in = Integer.parseInt(finalEdtiheight.getText().toString());
+                    int totalIn = ft * 12 + in;
+                    double totalCm = totalIn * 2.53;
+                    double totalM = totalCm / 100;
+                    double bmi = wt / (totalM * totalM);
+                    if (bmi > 25) {
+                        textResult.setText("you are Over weight 🦍️");
+                        backbroundmain.setBackgroundColor(getResources().getColor(R.color.colorOW));
+                    } else if (bmi < 18) {
+                        textResult.setText("you are Under weight 🤦‍♂️");
+                        backbroundmain.setBackgroundColor(getResources().getColor(R.color.colorUN));
 
-               int totalIn = ft*12+in;
-               double totalCm = totalIn*2.53;
-               double totalM = totalCm/100;
-               double bmi =wt/(totalM*totalM);
-               if(bmi>25){
-                   textResult.setText("you are Over weight 🦍️");
-                   backbroundmain.setBackgroundColor(getResources().getColor(R.color.colorOW));
-               }
-               else if(bmi<18){
-                   textResult.setText("you are Under weight 🤦‍♂️");
-                   backbroundmain.setBackgroundColor(getResources().getColor(R.color.colorUN));
 
-
-               }
-               else{
-                   textResult.setText("you are Heaalty  💪");
-                   backbroundmain.setBackgroundColor(getResources().getColor(R.color.colorH));
-               }
+                    } else {
+                        textResult.setText("you are Heaalty  💪");
+                        backbroundmain.setBackgroundColor(getResources().getColor(R.color.colorH));
+                    }
+                }
             }
-        });
+        }
+        );
 
 
 

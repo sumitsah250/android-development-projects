@@ -39,7 +39,7 @@
         android:ems="12"
         android:hint="@string/hint_htf"
         android:id="@+id/edtfheight"
-    android:inputType="number"
+        android:inputType="number"
 
         >
 
@@ -50,7 +50,7 @@
         android:ems="12"
         android:hint="@string/hint_hti"
         android:id="@+id/edtiheight"
-           android:inputType="number"
+        android:inputType="number"
         >
 
     </EditText>
@@ -62,7 +62,6 @@
         android:backgroundTint="#673AB7"
         android:textStyle="bold"
         android:textSize="21dp"
-
         android:id="@+id/btncalculator">
 
 
