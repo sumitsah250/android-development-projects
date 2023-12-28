@@ -19,13 +19,12 @@ public class MainActivity extends AppCompatActivity {
     Chronometer chronometer;
     private boolean running;
     ListView listview;
+    TextView txtVIew;
+
      int offset;
      ArrayList<String> time = new ArrayList<>();
      Button btn4;
     ArrayAdapter<String> adapter;
-
-
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         btn4=findViewById(R.id.btn4);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this,android.R.layout.simple_list_item_1,time);
         listview.setAdapter(adapter);
-
+        txtVIew= findViewById(R.id.txt);
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,10 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
-
     }
-
-
    public void startchronometer(View v){
         if(!running){
             chronometer.setBase(SystemClock.elapsedRealtime()-offset);
