@@ -39,6 +39,9 @@ public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.View
         holder.date.setText(task.get(position).rdate);
         holder.time.setText(task.get(position).rtime);
 
+
+
+
         mydbhelper3 dbhelper3;
         dbhelper3 = new mydbhelper3(context);
 
@@ -58,10 +61,13 @@ public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.View
                                 task.remove(position);
                                 notifyItemRemoved(position);
                                 Contactmodel contactmodel = new Contactmodel();
-                                contactmodel.id=position;
-                                Toast.makeText(context, ""+contactmodel.id, Toast.LENGTH_SHORT).show();
 
-//                                dbhelper3.DeleteContact(contactmodel);
+                                ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
+                                contactmodel.id=arrcontacts.get(position).id;
+
+
+                                Toast.makeText(context, ""+contactmodel.id, Toast.LENGTH_SHORT).show();
+                                dbhelper3.DeleteContact(contactmodel);
 
 
                             }
@@ -118,20 +124,25 @@ public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.View
                         if(!edttask.getText().toString().equals("") && !edttime.getText().toString().equals("") && !edtdate.getText().toString().equals("")){
                             task.set(position,new taskModel(task1,date1,time1));
                             notifyItemChanged(position);
+
                             Contactmodel contactmodel = new Contactmodel();
                             contactmodel.id=position;
+
                             Toast.makeText(context, ""+contactmodel.id, Toast.LENGTH_SHORT).show();
                             contactmodel.name=edttask.getText().toString();
                             contactmodel.date=edtdate.getText().toString();
                             contactmodel.time=edttime.getText().toString();
+
+                            ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
+                            contactmodel.id=arrcontacts.get(position).id;
+
                             dbhelper3.UpdateContact(contactmodel);
                             dialog1.dismiss();
+
                         }
                     }
                 });
                 dialog1.show();
-
-
             }
         });
     }

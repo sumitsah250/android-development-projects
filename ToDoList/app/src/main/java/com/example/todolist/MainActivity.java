@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
+
         ArrayList<String> arrnames = new ArrayList<>();
         ArrayList<String> arrnumbers = new ArrayList<>();
         ArrayList<String> arrtime = new ArrayList<>();
