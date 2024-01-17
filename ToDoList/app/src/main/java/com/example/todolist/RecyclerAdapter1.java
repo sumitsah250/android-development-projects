@@ -32,11 +32,20 @@ public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.View
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.checkbox.setText(task.get(position).rcheckbox);
         holder.date.setText(task.get(position).rdate);
         holder.time.setText(task.get(position).rtime);
+
+        mydbhelper3 dbhelper3;
+        dbhelper3 = new mydbhelper3(context);
+
+
+
+
+
         holder.lladd.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -48,6 +57,13 @@ public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.View
                             public void onClick(DialogInterface dialog, int which) {
                                 task.remove(position);
                                 notifyItemRemoved(position);
+                                Contactmodel contactmodel = new Contactmodel();
+                                contactmodel.id=position;
+                                Toast.makeText(context, ""+contactmodel.id, Toast.LENGTH_SHORT).show();
+
+//                                dbhelper3.DeleteContact(contactmodel);
+
+
                             }
                         })
                         .setNegativeButton("no", new DialogInterface.OnClickListener() {
@@ -102,6 +118,13 @@ public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.View
                         if(!edttask.getText().toString().equals("") && !edttime.getText().toString().equals("") && !edtdate.getText().toString().equals("")){
                             task.set(position,new taskModel(task1,date1,time1));
                             notifyItemChanged(position);
+                            Contactmodel contactmodel = new Contactmodel();
+                            contactmodel.id=position;
+                            Toast.makeText(context, ""+contactmodel.id, Toast.LENGTH_SHORT).show();
+                            contactmodel.name=edttask.getText().toString();
+                            contactmodel.date=edtdate.getText().toString();
+                            contactmodel.time=edttime.getText().toString();
+                            dbhelper3.UpdateContact(contactmodel);
                             dialog1.dismiss();
                         }
                     }

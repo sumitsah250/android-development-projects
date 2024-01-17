@@ -25,13 +25,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         floating = findViewById(R.id.floating);
+
+
+        mydbhelper3 dbhelper3;
+        dbhelper3 = new mydbhelper3(this);
+
+
+        ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
+        ArrayList<String> arrnames = new ArrayList<>();
+        ArrayList<String> arrnumbers = new ArrayList<>();
+        ArrayList<String> arrtime = new ArrayList<>();
+        for(int i=0;i<arrcontacts.size();i++){
+            arrnames.add(arrcontacts.get(i).name);
+            arrnumbers.add(arrcontacts.get(i).time);
+            arrtime.add(arrcontacts.get(i).date);
+        }
+        for(int i=0;i<arrcontacts.size();i++){
+            task.add(new taskModel(arrnames.get(i),arrnumbers.get(i).toString(),arrtime.get(i)));
+        }
+
+
+
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        task.add(new taskModel("my first task","2080/09/12","2:00"));
-        task.add(new taskModel("my second  task","2080/10/12","2:00"));
-        task.add(new taskModel("home work","2080/09/10","2:00"));
-        task.add(new taskModel("class","2080/1/12","3:00"));
-        task.add(new taskModel("study","2080/1/12","3:00"));
+
         RecyclerAdapter1 adapter = new RecyclerAdapter1(MainActivity.this,task);
         recyclerView.setAdapter(adapter);
         floating.setOnClickListener(new View.OnClickListener() {
@@ -46,37 +63,45 @@ public class MainActivity extends AppCompatActivity {
                 btnAction.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Contactmodel data = null;
                         String task1 ="";
                         String date1= "";
                         String time1="";
                         if(!edttask.getText().toString().equals("")){
                             task1=edttask.getText().toString();
+//                            data.name=task1;
                         }
                         else{
                             Toast.makeText(MainActivity.this, "task can't be empty", Toast.LENGTH_SHORT).show();
                         }
                         if(!edtdate.getText().toString().equals("")){
                             date1=edtdate.getText().toString();
+//                            data.date=date1;
                         }
                         else {
                             Toast.makeText(MainActivity.this, "date missing", Toast.LENGTH_SHORT).show();
                         }
                         if(!edttime.getText().toString().equals("")){
                             time1=edttime.getText().toString();
+
                         }
                         else {
                             Toast.makeText(MainActivity.this, "time missing", Toast.LENGTH_SHORT).show();
                         }
                         if(!edttask.getText().toString().equals("") && !edttime.getText().toString().equals("") && !edtdate.getText().toString().equals("")){
                             task.add(new taskModel(task1,date1,time1));
+                            dbhelper3.addContacts(edttask.getText().toString(),edttime.getText().toString(),edtdate.getText().toString());
                             adapter.notifyItemInserted(task.size()-1);
                             recyclerView.scrollToPosition(task.size()-1);
+
                             dialog.dismiss();
                         }
                     }
                 });
                 dialog.show();
+
             }
+
         });
     }
 }
