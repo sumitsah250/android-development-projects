@@ -32,10 +32,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
-
         ArrayList<String> arrnames = new ArrayList<>();
         ArrayList<String> arrnumbers = new ArrayList<>();
         ArrayList<String> arrtime = new ArrayList<>();
+
         for(int i=0;i<arrcontacts.size();i++){
             arrnames.add(arrcontacts.get(i).name);
             arrnumbers.add(arrcontacts.get(i).time);
@@ -45,13 +45,13 @@ public class MainActivity extends AppCompatActivity {
             task.add(new taskModel(arrnames.get(i),arrnumbers.get(i).toString(),arrtime.get(i)));
         }
 
-
-
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         RecyclerAdapter1 adapter = new RecyclerAdapter1(MainActivity.this,task);
         recyclerView.setAdapter(adapter);
+
+
         floating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,10 +91,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                         if(!edttask.getText().toString().equals("") && !edttime.getText().toString().equals("") && !edtdate.getText().toString().equals("")){
                             task.add(new taskModel(task1,date1,time1));
+
                             dbhelper3.addContacts(edttask.getText().toString(),edttime.getText().toString(),edtdate.getText().toString());
                             adapter.notifyItemInserted(task.size()-1);
                             recyclerView.scrollToPosition(task.size()-1);
-
                             dialog.dismiss();
                         }
                     }

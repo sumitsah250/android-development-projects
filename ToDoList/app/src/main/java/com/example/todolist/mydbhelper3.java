@@ -29,16 +29,11 @@ public class mydbhelper3 extends SQLiteOpenHelper {
         // CREATE TABLE  contacts (id INTEGER PRIMARY KEY AUTOINCREMENT , name TEXT , phone_no TEXT);
 
         sqLiteDatabase.execSQL(" create table "+ TABLE_CONTACT +"(" + KEY_ID + " integer primary key autoincrement,  " + KEY_Date + " text, " + KEY_NAME + " text,"+KEY_TIME +" text "+")" );
-
-
-
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL(" DROP TABLE IF EXISTS " + TABLE_CONTACT);
         onCreate(sqLiteDatabase);
-
     }
    void addContacts (String Name , String date,String time){
         SQLiteDatabase db = this.getWritableDatabase();

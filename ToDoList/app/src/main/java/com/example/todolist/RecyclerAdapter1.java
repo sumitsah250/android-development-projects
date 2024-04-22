@@ -48,10 +48,10 @@ public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.View
 
 
 
-
         holder.lladd.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(context)
                         .setTitle("Delete task")
                         .setMessage("do you really want to delete the task ?")
@@ -60,15 +60,11 @@ public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.View
                             public void onClick(DialogInterface dialog, int which) {
                                 task.remove(position);
                                 notifyItemRemoved(position);
-                                Contactmodel contactmodel = new Contactmodel();
 
+                                Contactmodel contactmodel = new Contactmodel();
                                 ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
                                 contactmodel.id=arrcontacts.get(position).id;
-
-
-                                Toast.makeText(context, ""+contactmodel.id, Toast.LENGTH_SHORT).show();
                                 dbhelper3.DeleteContact(contactmodel);
-
 
                             }
                         })
@@ -82,6 +78,7 @@ public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.View
                 return true;
             }
         });
+
         holder.lladd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +91,7 @@ public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.View
                 Button btnAction = dialog1.findViewById(R.id.btnAction);
                 btnAction.setText("UPDATE");
                 txtadd.setText("Update task");
+
                 edttask.setText(task.get(position).rcheckbox);
                 edtdate.setText(task.get(position).rdate);
                 edttime.setText(task.get(position).rtime);
@@ -127,8 +125,7 @@ public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.View
 
                             Contactmodel contactmodel = new Contactmodel();
                             contactmodel.id=position;
-
-                            Toast.makeText(context, ""+contactmodel.id, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, ""+contactmodel.id, Toast.LENGTH_SHORT).show();
                             contactmodel.name=edttask.getText().toString();
                             contactmodel.date=edtdate.getText().toString();
                             contactmodel.time=edttime.getText().toString();
