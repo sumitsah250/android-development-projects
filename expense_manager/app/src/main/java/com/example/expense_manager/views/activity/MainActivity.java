@@ -1,9 +1,6 @@
-package com.example.expense_manager;
-
-import static java.sql.Types.NULL;
+package com.example.expense_manager.views.activity;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 
@@ -13,6 +10,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.expense_manager.views.fragment.AddTransactionFragment;
+import com.example.expense_manager.R;
 import com.example.expense_manager.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
