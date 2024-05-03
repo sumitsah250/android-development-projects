@@ -124,7 +124,7 @@
                 android:text="Income" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/incomelbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -148,7 +148,7 @@
                 android:text="expense" />
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/expenselbl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -172,7 +172,7 @@
                 android:text="Total" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/totalAmountlbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -221,5 +221,18 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/row_transaction" />
+
+    <ImageView
+        android:id="@+id/emptylist"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:alpha="0.5"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.463"
+        app:layout_constraintStart_toStartOf="@+id/transactionsList"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:srcCompat="@drawable/empty_state" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

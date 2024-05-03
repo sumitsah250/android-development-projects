@@ -2,8 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="orange">#FF5722</color>
-    <color name="orangedark">#F44336</color>
+    <color name="orange">#039BE5</color>
+
+    <color name="orangedark">#1B6EB6</color>
+
     <color name="textColor" >#353535</color>
     <color name="greenColor" >#0C8512</color>
     <color name="redColor" >#FF0000</color>
@@ -14,4 +16,11 @@
     <color name="category4" >#8E24AA</color>
     <color name="category5" >#00897B</color>
     <color name="category6" >#3949AB</color>
+    <color name="category7" >#FFB300</color>
+
+    <color name="Cash">#1E88E5</color>
+    <color name="Bank">#AE962E</color>
+    <color name="Esewa">#49C64F</color>
+    <color name="Khalti">#8E24AA</color>
+    <color name="Others">#5D585E</color>
 </resources>

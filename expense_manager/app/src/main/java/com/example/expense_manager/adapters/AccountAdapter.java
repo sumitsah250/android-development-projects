@@ -29,7 +29,6 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.Accounts
         this.context=context;
         this.accountArrayList=accountArrayList;
         this.accountsClickListner= accountsClickListner;
-
     }
 
 

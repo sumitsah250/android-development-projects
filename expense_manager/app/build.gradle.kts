@@ -1,13 +1,20 @@
+
 plugins {
     alias(libs.plugins.androidApplication)
+
 }
+
+apply(plugin = "realm-android")
 
 android {
     namespace = "com.example.expense_manager"
     compileSdk = 34
 
 
+
     defaultConfig {
+
+
         applicationId = "com.example.expense_manager"
         minSdk = 24
         targetSdk = 34
@@ -18,7 +25,9 @@ android {
     }
     buildFeatures{
         viewBinding = true
+
     }
+
 
     buildTypes {
         release {
@@ -28,12 +37,14 @@ android {
                 "proguard-rules.pro"
             )
         }
+
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
+
 
 dependencies {
 
