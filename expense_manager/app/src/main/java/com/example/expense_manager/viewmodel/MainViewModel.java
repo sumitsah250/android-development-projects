@@ -18,6 +18,7 @@ import io.realm.RealmResults;
 public class MainViewModel extends AndroidViewModel {
     Realm realm;
    public  MutableLiveData<RealmResults<Transaction> > transaction = new MutableLiveData<>();
+   public  MutableLiveData<RealmResults<Transaction> > categoriestransaction = new MutableLiveData<>();
    public MutableLiveData<Double> totalIncome = new MutableLiveData<>();
    public MutableLiveData<Double> totalExpense= new MutableLiveData<>();
    public MutableLiveData<Double> totalAmount = new MutableLiveData<>();
@@ -48,6 +49,43 @@ public class MainViewModel extends AndroidViewModel {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(transaction);
         realm.commitTransaction();
+
+    }
+    public void getTransaction(Calendar calendar,String type){
+        this.calendar=calendar;
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
+
+        RealmResults<Transaction> newtransactions=null;
+        if(Constants.SELECTED_STATS==Constants.DAILY){
+
+            newtransactions = realm.where(Transaction.class)
+                    .greaterThanOrEqualTo("date",calendar.getTime())
+                    .lessThan("date",new Date(calendar.getTime().getTime()+(24*60*60*1000)))
+                    .equalTo("type",type)
+                    .findAll();
+
+
+        } else if (Constants.SELECTED_STATS == Constants.MONTHLY) {
+            calendar.set(Calendar.DAY_OF_MONTH,0);
+            Date startTime = calendar.getTime();
+            calendar.add(Calendar.MONTH,1);
+            Date endTime = calendar.getTime() ;
+
+            newtransactions = realm.where(Transaction.class)
+                    .greaterThanOrEqualTo("date",startTime)
+                    .lessThan("date",endTime)
+                    .equalTo("type",type)
+                    .findAll();
+
+
+
+        }
+
+        categoriestransaction.setValue(newtransactions);
+
 
     }
     public void getTransaction(Calendar calendar){
