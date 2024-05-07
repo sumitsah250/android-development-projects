@@ -38,6 +38,7 @@ public class TransactionFragment extends Fragment {
     Calendar calendar;
     public MainViewModel viewModel;
 
+
     /*
     0 == daily
     1== monthly

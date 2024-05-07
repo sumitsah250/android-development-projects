@@ -20,5 +20,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "expense_manager"
+rootProject.name = "Paisa"
 include(":app")
