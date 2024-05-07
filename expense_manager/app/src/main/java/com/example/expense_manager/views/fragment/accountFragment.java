@@ -11,16 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import com.anychart.AnyChart;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Pie;
-import com.anychart.enums.Align;
-import com.anychart.enums.LegendLayout;
 import com.example.expense_manager.R;
+import com.example.expense_manager.databinding.FragmentAccountBinding;
 import com.example.expense_manager.databinding.FragmentStatsBinding;
-import com.example.expense_manager.databinding.FragmentTransactionBinding;
 import com.example.expense_manager.models.Transaction;
 import com.example.expense_manager.utils.Constants;
 import com.example.expense_manager.utils.Helper;
@@ -36,9 +35,8 @@ import java.util.Map;
 
 import io.realm.RealmResults;
 
-
-public class statsFragment extends Fragment {
-    FragmentStatsBinding binding;
+public class accountFragment extends Fragment {
+    FragmentAccountBinding binding;
 
     Calendar calendar;
     public MainViewModel viewModel;
@@ -49,15 +47,18 @@ public class statsFragment extends Fragment {
     2==calander
     3=Summary
     4==Notes
+
      */
 //    Realm realm;
 
-    public statsFragment() {
 
+
+
+
+
+    public accountFragment() {
+        // Required empty public constructor
     }
-
-
-
 
 
 
@@ -70,31 +71,11 @@ public class statsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentStatsBinding.inflate(inflater);
-            Pie pie = AnyChart.pie();
+        binding = FragmentAccountBinding.inflate(inflater);
 
+//        Toast.makeText(getContext(), "here", Toast.LENGTH_SHORT).show();
 
-
-
-
-
-
-
-//        pie.title("Fruits imported in 2015 (in kg)");
-//
-//        pie.labels().position("outside");
-//
-//        pie.legend().title().enabled(true);
-//        pie.legend().title()
-//                .text("Retail channels")
-//                .padding(0d, 0d, 10d, 0d);
-//
-//        pie.legend()
-//                .position("center-bottom")
-//                .itemsLayout(LegendLayout.HORIZONTAL)
-//                .align(Align.CENTER);
-
-//        binding.anychart.setChart(pie);
+        Pie pie = AnyChart.pie();
 
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
@@ -171,41 +152,41 @@ public class statsFragment extends Fragment {
             }
         });
 
-                    viewModel.categoriestransaction.observe(getViewLifecycleOwner(), new Observer<RealmResults<Transaction>>() {
-                @Override
-                public void onChanged(RealmResults<Transaction> transactions) {
+        viewModel.categoriestransaction.observe(getViewLifecycleOwner(), new Observer<RealmResults<Transaction>>() {
+            @Override
+            public void onChanged(RealmResults<Transaction> transactions) {
 
 
-                    if(transactions.size()>0){
-                        List<DataEntry> data = new ArrayList<>();
+                if(transactions.size()>0){
+                    List<DataEntry> data = new ArrayList<>();
 
-                        binding.emptylist.setVisibility(View.GONE);
-                        binding.anychart.setVisibility(View.VISIBLE);
+                    binding.emptylist.setVisibility(View.GONE);
+                    binding.anychart.setVisibility(View.VISIBLE);
 //
-                        Map<String, Double> categgoryMap = new HashMap<>();
-                        for(Transaction transaction :transactions){
-                            String category = transaction.getCategory();
-                            double  amount = transaction.getAmount();
-                            if(categgoryMap.containsKey(category)){
-                                double currentTotal =categgoryMap.get(category).doubleValue();
-                                currentTotal += Math.abs(amount);
-                                categgoryMap.put(category,currentTotal);
-                            }else {
-                                categgoryMap.put(category,Math.abs(amount));
-                            }
+                    Map<String, Double> categgoryMap = new HashMap<>();
+                    for(Transaction transaction :transactions){
+                        String category = transaction.getAccount();
+                        double  amount = transaction.getAmount();
+                        if(categgoryMap.containsKey(category)){
+                            double currentTotal =categgoryMap.get(category).doubleValue();
+                            currentTotal += Math.abs(amount);
+                            categgoryMap.put(category,currentTotal);
+                        }else {
+                            categgoryMap.put(category,Math.abs(amount));
                         }
-                        for(Map.Entry<String,Double> entry :categgoryMap.entrySet()){
-                            data.add(new ValueDataEntry(entry.getKey(),entry.getValue()));
-
-                        }
-                        pie.data(data);
-
-                    }else {
-                        binding.emptylist.setVisibility(View.VISIBLE);
-                        binding.anychart.setVisibility(View.GONE);
                     }
+                    for(Map.Entry<String,Double> entry :categgoryMap.entrySet()){
+                        data.add(new ValueDataEntry(entry.getKey(),entry.getValue()));
+
+                    }
+                    pie.data(data);
+
+                }else {
+                    binding.emptylist.setVisibility(View.VISIBLE);
+                    binding.anychart.setVisibility(View.GONE);
                 }
-            });
+            }
+        });
 
         viewModel.getTransaction(calendar,Constants.SELECTED_STATS_TYPE);
         binding.anychart.setChart(pie);
@@ -216,8 +197,8 @@ public class statsFragment extends Fragment {
                 binding.expenseBtn.setBackground(getContext().getDrawable(R.drawable.default_selector));
                 binding.expenseBtn.setTextColor(getContext().getColor(R.color.textColor));
                 binding.incomeBtn.setTextColor(getContext().getColor(R.color.greenColor));
-               Constants.SELECTED_STATS_TYPE=Constants.INCOME;
-               updateDate();
+                Constants.SELECTED_STATS_TYPE=Constants.INCOME;
+                updateDate();
             }
         });
         binding.expenseBtn.setOnClickListener(new View.OnClickListener() {
@@ -232,13 +213,8 @@ public class statsFragment extends Fragment {
             }
         });
 
-
-
-
-
         return binding.getRoot();
     }
-
     void updateDate(){
         if(Constants.SELECTED_STATS==Constants.DAILY){
             binding.currentdate.setText(Helper.formatDate(calendar.getTime()));

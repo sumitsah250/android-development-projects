@@ -31,6 +31,7 @@ import com.example.expense_manager.R;
 import com.example.expense_manager.databinding.ActivityMainBinding;
 import com.example.expense_manager.views.fragment.BlankFragment;
 import com.example.expense_manager.views.fragment.TransactionFragment;
+import com.example.expense_manager.views.fragment.accountFragment;
 import com.example.expense_manager.views.fragment.statsFragment;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.tabs.TabLayout;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content,new TransactionFragment());
         transaction.commit();
+
         binding.bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -94,6 +96,10 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().popBackStack();
                 } else if(item.getItemId() == R.id.stats){
                     transaction.replace(R.id.content, new statsFragment());
+                    transaction.addToBackStack(null);
+                } else if (item.getItemId()==R.id.accounts) {
+//                    Toast.makeText(MainActivity.this, "i was here", Toast.LENGTH_SHORT).show();
+                    transaction.replace(R.id.content,new accountFragment());
                     transaction.addToBackStack(null);
                 }
                 transaction.commit();

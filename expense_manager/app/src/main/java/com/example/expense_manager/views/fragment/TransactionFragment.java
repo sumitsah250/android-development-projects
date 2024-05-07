@@ -185,7 +185,6 @@ public class TransactionFragment extends Fragment {
                 datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        Calendar calendar = Calendar.getInstance();
                         calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
                         calendar.set(Calendar.MONTH,month);
                         calendar.set(Calendar.YEAR,year);

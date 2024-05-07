@@ -6,9 +6,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/wallet_svgrepo_com"
+        android:icon="@drawable/wallet_money_business_svgrepo_com"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/wallet_svgrepo_com"
+        android:roundIcon="@drawable/wallet_money_business_svgrepo_com"
         android:supportsRtl="true"
         android:theme="@style/Theme.Expense_manager"
         tools:targetApi="31">
