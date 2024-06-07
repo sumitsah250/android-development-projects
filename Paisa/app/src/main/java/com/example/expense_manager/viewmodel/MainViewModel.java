@@ -19,6 +19,8 @@ public class MainViewModel extends AndroidViewModel {
     Realm realm;
    public  MutableLiveData<RealmResults<Transaction> > transaction = new MutableLiveData<>();
    public  MutableLiveData<RealmResults<Transaction> > categoriestransaction = new MutableLiveData<>();
+   public  MutableLiveData<RealmResults<Transaction> > accountiestransaction = new MutableLiveData<>();
+
    public MutableLiveData<Double> totalIncome = new MutableLiveData<>();
    public MutableLiveData<Double> totalExpense= new MutableLiveData<>();
    public MutableLiveData<Double> totalAmount = new MutableLiveData<>();
@@ -27,7 +29,6 @@ public class MainViewModel extends AndroidViewModel {
         super(application);
         Realm.init(application);
         setUpDatabase();
-
     }
     void setUpDatabase(){
         realm = Realm.getDefaultInstance();
@@ -85,6 +86,7 @@ public class MainViewModel extends AndroidViewModel {
         }
 
         categoriestransaction.setValue(newtransactions);
+        accountiestransaction.setValue(newtransactions);
 
 
     }

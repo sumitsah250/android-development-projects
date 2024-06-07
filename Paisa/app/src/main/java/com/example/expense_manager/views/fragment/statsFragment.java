@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import com.anychart.AnyChart;
 import com.anychart.chart.common.dataentry.DataEntry;
@@ -70,14 +71,9 @@ public class statsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         binding = FragmentStatsBinding.inflate(inflater);
             Pie pie = AnyChart.pie();
-
-
-
-
-
-
 
 
 //        pie.title("Fruits imported in 2015 (in kg)");
@@ -174,8 +170,6 @@ public class statsFragment extends Fragment {
                     viewModel.categoriestransaction.observe(getViewLifecycleOwner(), new Observer<RealmResults<Transaction>>() {
                 @Override
                 public void onChanged(RealmResults<Transaction> transactions) {
-
-
                     if(transactions.size()>0){
                         List<DataEntry> data = new ArrayList<>();
 
@@ -198,7 +192,11 @@ public class statsFragment extends Fragment {
                             data.add(new ValueDataEntry(entry.getKey(),entry.getValue()));
 
                         }
-                        pie.data(data);
+                        try{
+                            pie.data(data);
+                        }catch (Exception e){
+                            Toast.makeText(getContext(), ""+e, Toast.LENGTH_SHORT).show();
+                        }
 
                     }else {
                         binding.emptylist.setVisibility(View.VISIBLE);
@@ -245,7 +243,6 @@ public class statsFragment extends Fragment {
         }else if(Constants.SELECTED_STATS==Constants.MONTHLY){
             binding.currentdate.setText(Helper.formatDateByMonth(calendar.getTime()));
         }
-
         viewModel.getTransaction(calendar,Constants.SELECTED_STATS_TYPE);
     }
 }

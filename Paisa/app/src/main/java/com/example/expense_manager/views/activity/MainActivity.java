@@ -3,6 +3,7 @@ package com.example.expense_manager.views.activity;
 import static java.security.AccessController.getContext;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 if(item.getItemId() == R.id.transactions) {
+                    transaction.replace(R.id.content, new TransactionFragment());
                     getSupportFragmentManager().popBackStack();
                 } else if(item.getItemId() == R.id.stats){
                     transaction.replace(R.id.content, new statsFragment());

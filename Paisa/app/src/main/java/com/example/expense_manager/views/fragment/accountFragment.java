@@ -71,6 +71,7 @@ public class accountFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         binding = FragmentAccountBinding.inflate(inflater);
 
 //        Toast.makeText(getContext(), "here", Toast.LENGTH_SHORT).show();
@@ -152,11 +153,9 @@ public class accountFragment extends Fragment {
             }
         });
 
-        viewModel.categoriestransaction.observe(getViewLifecycleOwner(), new Observer<RealmResults<Transaction>>() {
+        viewModel.accountiestransaction.observe(getViewLifecycleOwner(), new Observer<RealmResults<Transaction>>() {
             @Override
             public void onChanged(RealmResults<Transaction> transactions) {
-
-
                 if(transactions.size()>0){
                     List<DataEntry> data = new ArrayList<>();
 
@@ -179,7 +178,12 @@ public class accountFragment extends Fragment {
                         data.add(new ValueDataEntry(entry.getKey(),entry.getValue()));
 
                     }
-                    pie.data(data);
+                    try{
+                        pie.data(data);
+                    }catch (Exception e){
+                        Toast.makeText(getContext(), ""+e, Toast.LENGTH_SHORT).show();
+                    }
+
 
                 }else {
                     binding.emptylist.setVisibility(View.VISIBLE);
