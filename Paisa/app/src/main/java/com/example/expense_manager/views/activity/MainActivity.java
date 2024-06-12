@@ -104,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.content,new accountFragment());
                     transaction.addToBackStack(null);
                 }
+                else if(item.getItemId() == R.id.more){
+                    startActivity(new Intent(MainActivity.this,profile.class));
+                }
                 transaction.commit();
                 return true;
             }

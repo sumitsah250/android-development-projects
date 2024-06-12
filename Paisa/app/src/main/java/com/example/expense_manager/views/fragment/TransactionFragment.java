@@ -125,7 +125,25 @@ public class TransactionFragment extends Fragment {
                     Constants.SELECTED_TAB=0;
                     updateDate();
                 }
+                else if(tab.getText().equals("Calendar")){
+                    DatePickerDialog datePickerDialog= new DatePickerDialog(getActivity());
+                    datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                            calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                            calendar.set(Calendar.MONTH,month);
+                            calendar.set(Calendar.YEAR,year);
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM,yyyy");
+                            String dateToShow = dateFormat.format(calendar.getTime());
+                            binding.currentdate.setText(dateToShow);
+                            viewModel.getTransaction(calendar);
+                        }
+                    });
+                    datePickerDialog.show();
+                    updateDate();
+                }
             }
+
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
@@ -171,6 +189,7 @@ public class TransactionFragment extends Fragment {
 
             }
         });
+
         viewModel.totalAmount.observe(getViewLifecycleOwner(), new Observer<Double>() {
             @Override
             public void onChanged(Double aDouble) {
@@ -180,6 +199,25 @@ public class TransactionFragment extends Fragment {
         });
 
         binding.currentdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog= new DatePickerDialog(getActivity());
+                datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                        calendar.set(Calendar.MONTH,month);
+                        calendar.set(Calendar.YEAR,year);
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM,yyyy");
+                        String dateToShow = dateFormat.format(calendar.getTime());
+                        binding.currentdate.setText(dateToShow);
+                        viewModel.getTransaction(calendar);
+                    }
+                });
+                datePickerDialog.show();
+            }
+        });
+        binding.CalendarTabtext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog= new DatePickerDialog(getActivity());
@@ -208,7 +246,6 @@ public class TransactionFragment extends Fragment {
         }else if(Constants.SELECTED_TAB==Constants.MONTHLY){
             binding.currentdate.setText(Helper.formatDateByMonth(calendar.getTime()));
         }
-
         viewModel.getTransaction(calendar);
     }
 }
