@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2E5CAC"
+    tools:context=".splash_screen">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="66dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="111dp"
+        android:layout_marginRight="118dp"
+        android:background="#2E5CAC"
+        android:shadowColor="#000"
+        android:shadowRadius="5"
+        android:text="To Do List"
+        android:textColor="#000"
+        android:textSize="44dp"
+        android:textStyle="bold">
+
+    </TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="66dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="12dp"
+        android:background="#2E5CAC"
+        android:text="powered:sumit"
+        android:textColor="#000"
+        android:textSize="14dp"
+        android:textStyle="bold">
+
+    </TextView>
+
+    <ImageView
+        android:id="@+id/donesymbol"
+        android:layout_width="94dp"
+        android:layout_height="88dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="33dp"
+        android:layout_marginTop="327dp"
+        android:layout_marginRight="156dp"
+
+
+        android:src="@drawable/done" />
+
+
+</RelativeLayout>
