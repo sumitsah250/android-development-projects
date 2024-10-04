@@ -3,10 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@drawable/ic_search"
-        android:title="Search"
-        app:showAsAction="always" />
-    <item
         android:icon="@drawable/ic_star"
         android:title="Favorites"
         app:showAsAction="always" />

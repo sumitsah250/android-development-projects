@@ -37,7 +37,6 @@ public class profile extends AppCompatActivity {
         listview=findViewById(R.id.listview);
         listview.setLayoutManager(new LinearLayoutManager(this));
         arrNames.add("Sumit");
-        arrNames.add("Sumit");
 
         ProfilePictureAdapter profilePictureAdapter = new ProfilePictureAdapter(this,arrNames);
         listview.setAdapter(profilePictureAdapter);
