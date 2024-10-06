@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId = "com.boss.To_Do_List"
         minSdk = 24
-        targetSdk = 34
+        targetSdk =  34
         versionCode = 1
         versionName = "1.0"
 

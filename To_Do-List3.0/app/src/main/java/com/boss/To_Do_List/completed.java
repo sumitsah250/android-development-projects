@@ -33,7 +33,7 @@ public class completed extends Fragment {
         recyclerView =view.findViewById(R.id.completed_recycler);
 
         ArrayList<TaskModel> arrTask= new ArrayList<>();
-        RecyclerAdapter adapter= new RecyclerAdapter(getActivity(),arrTask,1);
+        RecyclerAdapter_completed adapter= new RecyclerAdapter_completed(getActivity(),arrTask,1);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         recyclerView.setAdapter(adapter);
 
@@ -42,22 +42,11 @@ public class completed extends Fragment {
         dbhelper3 = new mydbhelper3(getActivity().getApplicationContext());
 
         ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
-        ArrayList<String> arrnames = new ArrayList<>();
-        ArrayList<String> arrnumbers = new ArrayList<>();
-        ArrayList<String> arrtime = new ArrayList<>();
-        ArrayList<Boolean> arrstatus= new ArrayList<>();
         for(int i=0;i<arrcontacts.size();i++){
-            arrnames.add(arrcontacts.get(i).name);
-            arrnumbers.add(arrcontacts.get(i).time);
-            arrtime.add(arrcontacts.get(i).date);
-            arrstatus.add(arrcontacts.get(i).status);
+            arrTask.add(new TaskModel(arrcontacts.get(i).task,arrcontacts.get(i).date.toString(),arrcontacts.get(i).time,arrcontacts.get(i).status,arrcontacts.get(i).id));
+            adapter.notifyItemInserted(arrTask.size()-1);
         }
 
-        for(int i=0;i<arrcontacts.size();i++){
-                arrTask.add(new TaskModel(arrnames.get(i),arrnumbers.get(i).toString(),arrtime.get(i),arrstatus.get(i)));
-                adapter.notifyItemInserted(arrTask.size()-1);
-                recyclerView.scrollToPosition(arrTask.size()-1);
-        }
 
         // Inflate the layout for this fragment
         return view;

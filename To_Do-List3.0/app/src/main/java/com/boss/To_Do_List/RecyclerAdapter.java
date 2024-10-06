@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,11 +31,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     Context context;
     ArrayList<TaskModel> arrtask;
-    int id;
+
     RecyclerAdapter(Context context,ArrayList<TaskModel> arrtask,int id){
         this.context=context;
         this.arrtask=arrtask;
-        this.id=id;
     }
     @NonNull
     @Override
@@ -46,9 +46,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapter.ViewHolder holder, int position) {
 
-
-
-
         if(arrtask.get(position).status){
             holder.task.setChecked(true);
         }else{
@@ -57,29 +54,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         mydbhelper3 dbhelper3;
         dbhelper3 = new mydbhelper3(context);
-        ArrayList<TaskModel> arrTask= new ArrayList<>();
 
-        ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
-        ArrayList<String> arrnames = new ArrayList<>();
-        ArrayList<String> arrnumbers = new ArrayList<>();
-        ArrayList<String> arrtime = new ArrayList<>();
-        ArrayList<Boolean> arrstatus = new ArrayList<>();
 
-        for(int i=0;i<arrcontacts.size();i++){
-            arrnames.add(arrcontacts.get(i).name);
-            arrnumbers.add(arrcontacts.get(i).time);
-            arrtime.add(arrcontacts.get(i).date);
-            arrstatus.add(arrcontacts.get(i).status);
-        }
-        for(int i=0;i<arrcontacts.size();i++){
-            arrTask.add(new TaskModel(arrnames.get(i),arrnumbers.get(i).toString(),arrtime.get(i),arrstatus.get(i)));
-
-        }
         Contactmodel contactmodel = new Contactmodel();
-        contactmodel.id=position;
-        contactmodel.name=arrTask.get(position).task;
-        contactmodel.date=arrTask.get(position).time; /// due to code issue this got swaped
-        contactmodel.time=arrTask.get(position).date;
+        contactmodel.id= arrtask.get(position).ID;
+        contactmodel.task=arrtask.get(position).task;
+        contactmodel.time=arrtask.get(position).time;
+        contactmodel.date=arrtask.get(position).date;
         holder.task.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             @Override
@@ -87,95 +68,35 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             {
                 if ( isChecked )
                 {
-                    contactmodel.status=TRUE;
-                    contactmodel.id=arrcontacts.get(position).id;
-                    dbhelper3.UpdateContact(contactmodel);
+                   contactmodel.status=TRUE;
+                   contactmodel.id=arrtask.get(position).ID;
+                    Toast.makeText(context, ""+position+"/"+ arrtask.size()+"/"+arrtask.get(position).ID , Toast.LENGTH_SHORT).show();
+                   dbhelper3.UpdateContact(contactmodel);
+                    try{
+                       arrtask.remove(position);  // Remove item from data list
+                       notifyItemRemoved(position);  // Notify adapter about item removal
+                       notifyItemRangeChanged(position, arrtask.size());
+               }catch (Exception e){
+                   Toast.makeText(context, "unknown error occurred, please refresh  ", Toast.LENGTH_SHORT).show();
 
+
+               }
                 }else
                 {
                     contactmodel.status=FALSE;
-                    contactmodel.id=arrcontacts.get(position).id;
+                    contactmodel.id=arrtask.get(position).ID;
                     dbhelper3.UpdateContact(contactmodel);
+
 
                 }
 
             }
         });
 
-        if(id==1 && arrtask.get(position).status){
-            holder.task.setText(arrtask.get(position).task);
-            holder.task_details.setText(arrtask.get(position).date+" ,"+arrtask.get(position).time);Toast.makeText(context, ""+arrtask.get(position).date, Toast.LENGTH_SHORT).show();
-//            try{
-//                String[] arr;
-//                arr=(arrtask.get(position).date.toString().split(":"));
-//                setTimer(Integer.parseInt(arr[0]),Integer.parseInt(arr[1]));
-//
-//            }catch (Exception e){
-//                Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
-//            }
-            holder.lladd.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-
-                    androidx.appcompat.app.AlertDialog.Builder delDialog = new AlertDialog.Builder(context);
-                    delDialog.setTitle("Are you sure ");
-                    delDialog.setMessage("Do you want to remove this item ?");
-                    delDialog.setIcon(R.drawable.icons8_delete);
-                    delDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            arrtask.remove(position);
-                            notifyItemRemoved(position);
-                            Contactmodel contactmodel = new Contactmodel();
-                            ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
-                            contactmodel.id=arrcontacts.get(position).id;
-                            try {
-                                dbhelper3.DeleteContact(contactmodel);
-
-                            }catch (Exception e){
-                                Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
-                            }
 
 
 
-
-                        }
-                    });
-                    delDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-
-
-                        }
-                    });
-                    try {
-                        delDialog.show();
-                    }catch(Exception e){
-                        Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
-                    }
-
-                    return true;
-
-                }
-            });
-
-            holder.lladd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Bundle args = new Bundle();
-                    args.putInt("key",position);
-
-                    Intent home = new Intent(context,Update_task.class);
-                    home.putExtras(args);
-                    context.startActivity(home);
-//                Bundle bundle1 = getIntent().getExtras();
-//                int stuff = bundle1.getInt("Key");
-                }
-            });
-        }
-
-        if (id == 0 && !arrtask.get(position).status){
+        if (!arrtask.get(position).status){
             holder.task.setText(arrtask.get(position).task);
             holder.task_details.setText(arrtask.get(position).date+" ,"+arrtask.get(position).time);
 
@@ -206,12 +127,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     delDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            arrtask.remove(position);
-                            notifyItemRemoved(position);
+                            try{
+                                if (arrtask != null && position >= 0 && position < arrtask.size()) {
+                                    arrtask.remove(position);
+                                    notifyItemRemoved(position); // Notify the adapter of the item removal
+                                }
+
+                            }catch (Exception e){
+
+                            }
+
 
                             Contactmodel contactmodel = new Contactmodel();
-                            ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
-                            contactmodel.id=arrcontacts.get(position).id;
+//                            ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
+                            contactmodel.id=arrtask.get(position).ID;
                             try {
                                 dbhelper3.DeleteContact(contactmodel);
 
@@ -254,9 +183,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 //                int stuff = bundle1.getInt("Key");
                 }
             });
-       }else{
-            holder.task.setText(arrtask.get(position).task);
-            holder.task_details.setText(arrtask.get(position).date+" ,"+arrtask.get(position).time);
+      } else{
+//            holder.task.setText(arrtask.get(position).task);
+//            holder.task_details.setText(arrtask.get(position).date+" ,"+arrtask.get(position).time);
+            try{
+                holder.itemView.setVisibility(View.GONE);
+                holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+
+            }catch (Exception e){
+                Toast.makeText(context, ""+"here in else ", Toast.LENGTH_SHORT).show();
+            }
+
         }
 
     }

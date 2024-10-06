@@ -58,29 +58,13 @@ public class remaining extends Fragment{
         mydbhelper3 dbhelper3;
         dbhelper3 = new mydbhelper3(getActivity().getApplicationContext());
         ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
-        ArrayList<String> arrnames = new ArrayList<>();
-        ArrayList<String> arrnumbers = new ArrayList<>();
-        ArrayList<String> arrtime = new ArrayList<>();
-        ArrayList<Boolean> arrstatus= new ArrayList<>();
-
-
         for(int i=0;i<arrcontacts.size();i++){
-            arrnames.add(arrcontacts.get(i).name);
-            arrnumbers.add(arrcontacts.get(i).time);
-            arrtime.add(arrcontacts.get(i).date);
-            arrstatus.add(arrcontacts.get(i).status);
+            arrTask.add(new TaskModel(arrcontacts.get(i).task,arrcontacts.get(i).date.toString(),arrcontacts.get(i).time,arrcontacts.get(i).status,arrcontacts.get(i).id));
+            adapter.notifyItemInserted(arrTask.size()-1);
 
         }
 
-        for(int i=0;i<arrcontacts.size();i++){
 
-               arrTask.add(new TaskModel(arrnames.get(i),arrnumbers.get(i).toString(),arrtime.get(i),arrstatus.get(i)));
-               adapter.notifyItemInserted(arrTask.size()-1);
-               recyclerView.scrollToPosition(arrTask.size()-1);
-
-
-
-        }
 
 
         floatbtn= view.findViewById(R.id.remaining_opendialog);

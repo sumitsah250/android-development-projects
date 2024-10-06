@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
 
     <application
         android:allowBackup="true"
@@ -36,6 +38,9 @@
         <receiver android:name=".MyBroadcastReceiver">
 
         </receiver>
+        <receiver android:name="com.boss.gpt.NotificationReceiver"/>
+
+
     </application>
 
 </manifest>

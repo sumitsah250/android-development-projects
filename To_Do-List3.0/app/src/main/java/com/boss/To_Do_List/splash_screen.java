@@ -34,7 +34,6 @@ public class splash_screen extends AppCompatActivity {
         Animation drop = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.drop);
         donesymbol=findViewById(R.id.donesymbol);
         donesymbol.startAnimation(rotate);
-//        donesymbol.startAnimation(drop);
         Intent home = new Intent(splash_screen.this,MainActivity.class);
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -42,7 +41,7 @@ public class splash_screen extends AppCompatActivity {
                 startActivity(home);
                 finish();
             }
-        },2200);
+        },1500);
 
 
 

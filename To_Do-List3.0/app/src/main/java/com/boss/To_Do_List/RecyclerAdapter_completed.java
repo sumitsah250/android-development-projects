@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +30,11 @@ public class RecyclerAdapter_completed extends RecyclerView.Adapter<RecyclerAdap
 
     Context context;
     ArrayList<TaskModel> arrtask;
-    RecyclerAdapter_completed(Context context, ArrayList<TaskModel> arrtask){
+    int id;
+    RecyclerAdapter_completed(Context context,ArrayList<TaskModel> arrtask,int id){
         this.context=context;
         this.arrtask=arrtask;
+        this.id=id;
     }
     @NonNull
     @Override
@@ -43,59 +46,49 @@ public class RecyclerAdapter_completed extends RecyclerView.Adapter<RecyclerAdap
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapter_completed.ViewHolder holder, int position) {
-        holder.task.setText(arrtask.get(position).task);
-        holder.task_details.setText(arrtask.get(position).date+" ,"+arrtask.get(position).time);
-
-        if(arrtask.get(position).status){
+        if (arrtask.get(position).status) {
             holder.task.setChecked(true);
-        }else{
+        } else {
             holder.task.setChecked(false);
         }
 
-
         mydbhelper3 dbhelper3;
         dbhelper3 = new mydbhelper3(context);
-        ArrayList<TaskModel> arrTask= new ArrayList<>();
-        ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
-        ArrayList<String> arrnames = new ArrayList<>();
-        ArrayList<String> arrnumbers = new ArrayList<>();
-        ArrayList<String> arrtime = new ArrayList<>();
-        ArrayList<Boolean> arrstatus = new ArrayList<>();
-
-        for(int i=0;i<arrcontacts.size();i++){
-            arrnames.add(arrcontacts.get(i).name);
-            arrnumbers.add(arrcontacts.get(i).time);
-            arrtime.add(arrcontacts.get(i).date);
-            arrstatus.add(arrcontacts.get(i).status);
-        }
-        for(int i=0;i<arrcontacts.size();i++){
-            arrTask.add(new TaskModel(arrnames.get(i),arrnumbers.get(i).toString(),arrtime.get(i),arrstatus.get(i)));
-
-        }
-
-
         Contactmodel contactmodel = new Contactmodel();
-        contactmodel.id=position;
+try {
+    contactmodel.id = arrtask.get(position).ID;
+    contactmodel.task = arrtask.get(position).task;
+    contactmodel.time = arrtask.get(position).time;
+    contactmodel.date = arrtask.get(position).date;
 
-        contactmodel.name=arrTask.get(position).task;
-        contactmodel.date=arrTask.get(position).time; /// due to code issue this got swaped
-        contactmodel.time=arrTask.get(position).date;
-        holder.task.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
+}catch (Exception e){
+    Toast.makeText(context, "unknown error occurred, please refresh  ", Toast.LENGTH_SHORT).show();
+}
+
+        holder.task.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
-                if ( isChecked )
-                {
-                    contactmodel.status=TRUE;
-                    contactmodel.id=arrcontacts.get(position).id;
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    contactmodel.status = TRUE;
+                    contactmodel.id=arrtask.get(position).ID;
                     dbhelper3.UpdateContact(contactmodel);
 
-                }else
-                {
-                    contactmodel.status=FALSE;
-                    contactmodel.id=arrcontacts.get(position).id;
+                } else {
+                    contactmodel.status = FALSE;
+                    contactmodel.id=arrtask.get(position).ID;
                     dbhelper3.UpdateContact(contactmodel);
+                    Toast.makeText(context, ""+position+"/"+ arrtask.size()+"/"+arrtask.get(position).ID , Toast.LENGTH_SHORT).show();
+
+                    try{
+                            arrtask.remove(position);  // Remove item from data list
+                            notifyItemRemoved(position);  // Notify adapter about item removal
+                            notifyItemRangeChanged(position, arrtask.size());
+
+
+                    }catch (Exception e){
+                        Toast.makeText(context, "unknown error occurred, please refresh  ", Toast.LENGTH_SHORT).show();
+                    }
+
 
                 }
 
@@ -103,76 +96,83 @@ public class RecyclerAdapter_completed extends RecyclerView.Adapter<RecyclerAdap
         });
 
 
-        holder.lladd.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-//                Bundle args = new Bundle();
-//                args.putInt("key",position);
+        if ( arrtask.get(position).status) {
+            holder.task.setText(arrtask.get(position).task);
+            holder.task_details.setText(arrtask.get(position).date + " ," + arrtask.get(position).time);
+//            try{
+//                String[] arr;
+//                arr=(arrtask.get(position).date.toString().split(":"));
+//                setTimer(Integer.parseInt(arr[0]),Integer.parseInt(arr[1]));
 //
-//                my_custom_dialog newFragment = new my_custom_dialog();
-//
-//                newFragment.setArguments(args);
-//                FragmentActivity activity = (FragmentActivity)(context);
-//                FragmentManager fm = activity.getSupportFragmentManager();
-//                newFragment.show(fm, "fragment_alert");
-                androidx.appcompat.app.AlertDialog.Builder delDialog = new AlertDialog.Builder(context);
-                delDialog.setTitle("Are you sure ");
-                delDialog.setMessage("Do you want to remove this item ?");
-                delDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        arrtask.remove(position);
-                        notifyItemRemoved(position);
+//            }catch (Exception e){
+//                Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
+//            }
+            holder.lladd.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
 
-                        Contactmodel contactmodel = new Contactmodel();
-                        ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
-                        contactmodel.id=arrcontacts.get(position).id;
-                        try {
-                            dbhelper3.DeleteContact(contactmodel);
+                    androidx.appcompat.app.AlertDialog.Builder delDialog = new AlertDialog.Builder(context);
+                    delDialog.setTitle("Are you sure ");
+                    delDialog.setMessage("Do you want to remove this item ?");
+                    delDialog.setIcon(R.drawable.icons8_delete);
+                    delDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (arrtask != null && position >= 0 && position < arrtask.size()) {
+                                arrtask.remove(position);
+                                notifyItemRemoved(position); // Notify the adapter of the item removal
+                            }
+                            Contactmodel contactmodel = new Contactmodel();
+//                            ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
+                            contactmodel.id = arrtask.get(position).ID;
+                            try {
+                                dbhelper3.DeleteContact(contactmodel);
 
-                        }catch (Exception e){
-                            Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                Toast.makeText(context, "" + e, Toast.LENGTH_SHORT).show();
+                            }
+
+
                         }
+                    });
+                    delDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
 
-
-
+                        }
+                    });
+                    try {
+                        delDialog.show();
+                    } catch (Exception e) {
+                        Toast.makeText(context, "" + e, Toast.LENGTH_SHORT).show();
                     }
-                });
-                delDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
 
+                    return true;
 
-                    }
-                });
-                try {
-                    delDialog.show();
-                }catch(Exception e){
-                    Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
                 }
+            });
 
-                return true;
+            holder.lladd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle args = new Bundle();
+                    args.putInt("key", position);
 
-            }
-        });
-
-        holder.lladd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle args = new Bundle();
-                args.putInt("key",position);
-
-                Intent home = new Intent(context,Update_task.class);
-                home.putExtras(args);
-                context.startActivity(home);
-
+                    Intent home = new Intent(context, Update_task.class);
+                    home.putExtras(args);
+                    context.startActivity(home);
 //                Bundle bundle1 = getIntent().getExtras();
 //                int stuff = bundle1.getInt("Key");
+                }
+            });
+        } else {
+//            holder.task.setText(arrtask.get(position).task);
+//            holder.task_details.setText(arrtask.get(position).date+" ,"+arrtask.get(position).time);
+            holder.itemView.setVisibility(View.GONE);
+            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+        }
 
-            }
-        });
     }
 
     @Override

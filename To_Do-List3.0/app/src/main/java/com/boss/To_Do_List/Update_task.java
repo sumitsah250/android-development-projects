@@ -59,22 +59,9 @@ public class Update_task extends AppCompatActivity {
 
         ArrayList<TaskModel> arrTask= new ArrayList<>();
         ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
-        ArrayList<String> arrnames = new ArrayList<>();
-        ArrayList<String> arrnumbers = new ArrayList<>();
-        ArrayList<String> arrtime = new ArrayList<>();
-        ArrayList<Boolean> arrstatus = new ArrayList<>();
-
         for(int i=0;i<arrcontacts.size();i++){
-            arrnames.add(arrcontacts.get(i).name);
-            arrnumbers.add(arrcontacts.get(i).time);
-            arrtime.add(arrcontacts.get(i).date);
-            arrstatus.add(arrcontacts.get(i).status);
-
+            arrTask.add(new TaskModel(arrcontacts.get(i).task,arrcontacts.get(i).date.toString(),arrcontacts.get(i).time,arrcontacts.get(i).status));
         }
-        for(int i=0;i<arrcontacts.size();i++){
-            arrTask.add(new TaskModel(arrnames.get(i),arrnumbers.get(i).toString(),arrtime.get(i),arrstatus.get(i)));
-        }
-
 
         //toolbar
         toolbar = findViewById(R.id.toolbar);
@@ -114,8 +101,8 @@ public class Update_task extends AppCompatActivity {
 
 
         edttask.setText(arrTask.get(position).task);
-        dateText.setText(arrTask.get(position).time);
-        timeText.setText(arrTask.get(position).date);
+        dateText.setText(arrTask.get(position).date);
+        timeText.setText(arrTask.get(position).time);
 
 
         btnAction.setOnClickListener(new View.OnClickListener() {
@@ -149,7 +136,7 @@ public class Update_task extends AppCompatActivity {
                     Contactmodel contactmodel = new Contactmodel();
                     contactmodel.id=position;
 
-                    contactmodel.name=edttask.getText().toString();
+                    contactmodel.task=edttask.getText().toString();
                     contactmodel.date=dateText.getText().toString();
                     contactmodel.time=timeText.getText().toString();
                     ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();

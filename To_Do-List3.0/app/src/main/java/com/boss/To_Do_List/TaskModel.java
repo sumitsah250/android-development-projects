@@ -4,15 +4,15 @@ public class TaskModel {
     String time;
     String task;
     String date;
-    String ID;
+    int ID;
     boolean status;
 
-    public String getID() {
+    public int getID() {
         return ID;
     }
 
     public void setID(String ID) {
-        this.ID = ID;
+        this.ID = Integer.parseInt(ID);
     }
 
     public boolean isStatus() {
@@ -47,9 +47,15 @@ public class TaskModel {
         this.time = time;
     }
 
+    public TaskModel(String task, String date, String time, boolean status, int ID) {
+        this.time = time;
+        this.task = task;
+        this.date = date;
+        this.ID = ID;
+        this.status = status;
+    }
 
-
-    public TaskModel(String task, String date, String time,boolean status) {
+    public TaskModel(String task, String date, String time, boolean status) {
         this.task = task;
         this.date = date;
         this.time = time;
