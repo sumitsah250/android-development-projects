@@ -50,7 +50,7 @@ public class my_custom_dialog extends DialogFragment {
                     Contactmodel contactmodel = new Contactmodel();
                     ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
                     contactmodel.id=arrcontacts.get(position).id;
-                    dbhelper3.DeleteContact(contactmodel);
+                    dbhelper3.DeleteContact(0,contactmodel);
 //                    MainActivity.refresh1();
 
                     dismiss();

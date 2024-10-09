@@ -29,12 +29,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="66dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="0dp"
         android:layout_marginRight="12dp"
         android:background="#2E5CAC"
-        android:text="powered:sumit"
+        android:text="produced by: Er.Sumit"
         android:textColor="#000"
         android:textSize="14dp"
         android:textStyle="bold">

@@ -155,7 +155,7 @@ public class add_task extends AppCompatActivity {
                             int hour = notihour;
                             int minute = notimin;
                             long timeInMillis = getMilliseconds(notiyear,notimonth,notiday,notihour, notimin);
-//                            testTimeDifference(notiyear,notimonth,notiday,notihour, notimin);
+                            testTimeDifference(notiyear,notimonth,notiday,notihour, notimin);
 
                             scheduleNotification( add_task.this, task1, time1+","+date1, timeInMillis, (int) System.currentTimeMillis());
 
@@ -186,7 +186,7 @@ public class add_task extends AppCompatActivity {
                 c.set(year,month,dayOfMonth);
                 notiyear=year;
                 notimonth=month;
-                notiday=day;
+                notiday=dayOfMonth;
 
 
                 String dayOfTheWeek= String.format("%tA",c);//use a instead of A for miniature form of days
@@ -234,8 +234,14 @@ public class add_task extends AppCompatActivity {
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (alarmManager != null) {
+            try{
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, pendingIntent);
 
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, pendingIntent);
+            }catch (Exception e){
+                Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
+            }
+
+
         }
     }
     public static long getMilliseconds(int year,int month,int day, int hour, int minute) {
@@ -249,21 +255,21 @@ public class add_task extends AppCompatActivity {
 
         return calendar.getTimeInMillis();
     }
-//    public void testTimeDifference(int year,int month,int day, int hour, int minute) {
-//        // Create a Calendar instance for the current time
-//        Calendar currentCalendar = Calendar.getInstance();
-//        long currentTimeMillis = currentCalendar.getTimeInMillis(); // Current time in millis
-//
-//        // Get the target time in millis using the getTimeInMillis function
-//        long targetTimeMillis = getMilliseconds(year,month,day,hour, minute);
-//
-//        // Calculate the difference in minutes
-//        long differenceInMillis = targetTimeMillis - currentTimeMillis;
-//        long differenceInMinutes = differenceInMillis / (1000 * 60); // Convert millis to minutes
-//
-//        // Log the results for debugging in Logcat
-//        Log.d("TimeDebug", "Current Time in Millis: " + currentTimeMillis);
-//        Log.d("TimeDebug", "Target Time in Millis: " + targetTimeMillis);
-//        Log.d("TimeDebug", "Time Difference (Minutes): " + differenceInMinutes);
-//    }
+    public void testTimeDifference(int year,int month,int day, int hour, int minute) {
+        // Create a Calendar instance for the current time
+        Calendar currentCalendar = Calendar.getInstance();
+        long currentTimeMillis = currentCalendar.getTimeInMillis(); // Current time in millis
+
+        // Get the target time in millis using the getTimeInMillis function
+        long targetTimeMillis = getMilliseconds(year,month,day,hour, minute);
+
+        // Calculate the difference in minutes
+        long differenceInMillis = targetTimeMillis - currentTimeMillis;
+        long differenceInMinutes = differenceInMillis / (1000 * 60); // Convert millis to minutes
+
+        // Log the results for debugging in Logcat
+        Log.d("TimeDebug", "Current Time in Millis: " + currentTimeMillis);
+        Log.d("TimeDebug", "Target Time in Millis: " + targetTimeMillis);
+        Log.d("TimeDebug", "Time Difference (Minutes): " + differenceInMinutes);
+    }
 }

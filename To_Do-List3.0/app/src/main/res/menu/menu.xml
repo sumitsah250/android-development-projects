@@ -6,10 +6,10 @@
         android:id="@+id/toolbar_remaining"
         android:icon="@drawable/baseline_create_new_folder_24"
         app:showAsAction="ifRoom"
-        android:title="remaining"  />
+        android:title="Remaining"  />
     <item
         android:id="@+id/toolbar_completed"
-        android:title="completed"
+        android:title="Completed"
         android:icon="@drawable/baseline_file_open_24"
         app:showAsAction="collapseActionView"
         />

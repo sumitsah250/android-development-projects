@@ -69,24 +69,28 @@ try {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    contactmodel.status = TRUE;
-                    contactmodel.id=arrtask.get(position).ID;
-                    dbhelper3.UpdateContact(contactmodel);
 
                 } else {
                     contactmodel.status = FALSE;
                     contactmodel.id=arrtask.get(position).ID;
-                    dbhelper3.UpdateContact(contactmodel);
-                    Toast.makeText(context, ""+position+"/"+ arrtask.size()+"/"+arrtask.get(position).ID , Toast.LENGTH_SHORT).show();
 
-                    try{
-                            arrtask.remove(position);  // Remove item from data list
-                            notifyItemRemoved(position);  // Notify adapter about item removal
-                            notifyItemRangeChanged(position, arrtask.size());
-
+                    try {
+                        dbhelper3.addContacts(0,contactmodel);
+                        dbhelper3.DeleteContact(1,contactmodel);
 
                     }catch (Exception e){
-                        Toast.makeText(context, "unknown error occurred, please refresh  ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
+                    }
+
+                    try{
+                        if (arrtask != null && position >= 0 && position < arrtask.size()) {
+                            arrtask.remove(position);
+                            notifyItemRemoved(position); // Notify the adapter of the item removal
+                            notifyItemRangeChanged(position, arrtask.size());
+                        }
+                    }catch (Exception e) {
+                        Log.d("RecyclerView", ""+e);
+
                     }
 
 
@@ -95,18 +99,9 @@ try {
             }
         });
 
-
-        if ( arrtask.get(position).status) {
             holder.task.setText(arrtask.get(position).task);
             holder.task_details.setText(arrtask.get(position).date + " ," + arrtask.get(position).time);
-//            try{
-//                String[] arr;
-//                arr=(arrtask.get(position).date.toString().split(":"));
-//                setTimer(Integer.parseInt(arr[0]),Integer.parseInt(arr[1]));
-//
-//            }catch (Exception e){
-//                Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
-//            }
+
             holder.lladd.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -118,19 +113,21 @@ try {
                     delDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (arrtask != null && position >= 0 && position < arrtask.size()) {
-                                arrtask.remove(position);
-                                notifyItemRemoved(position); // Notify the adapter of the item removal
-                            }
                             Contactmodel contactmodel = new Contactmodel();
 //                            ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
                             contactmodel.id = arrtask.get(position).ID;
                             try {
-                                dbhelper3.DeleteContact(contactmodel);
+                                dbhelper3.DeleteContact(1,contactmodel);
 
                             } catch (Exception e) {
                                 Toast.makeText(context, "" + e, Toast.LENGTH_SHORT).show();
                             }
+                            if (arrtask != null && position >= 0 && position < arrtask.size()) {
+                                arrtask.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position, arrtask.size());// Notify the adapter of the item removal
+                            }
+
 
 
                         }
@@ -153,25 +150,7 @@ try {
                 }
             });
 
-            holder.lladd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Bundle args = new Bundle();
-                    args.putInt("key", position);
 
-                    Intent home = new Intent(context, Update_task.class);
-                    home.putExtras(args);
-                    context.startActivity(home);
-//                Bundle bundle1 = getIntent().getExtras();
-//                int stuff = bundle1.getInt("Key");
-                }
-            });
-        } else {
-//            holder.task.setText(arrtask.get(position).task);
-//            holder.task_details.setText(arrtask.get(position).date+" ,"+arrtask.get(position).time);
-            holder.itemView.setVisibility(View.GONE);
-            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
-        }
 
     }
 

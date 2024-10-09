@@ -11,8 +11,8 @@ android {
         applicationId = "com.boss.To_Do_List"
         minSdk = 24
         targetSdk =  34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 4
+        versionName = "4.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

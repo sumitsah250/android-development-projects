@@ -70,25 +70,29 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 {
                    contactmodel.status=TRUE;
                    contactmodel.id=arrtask.get(position).ID;
-                    Toast.makeText(context, ""+position+"/"+ arrtask.size()+"/"+arrtask.get(position).ID , Toast.LENGTH_SHORT).show();
-                   dbhelper3.UpdateContact(contactmodel);
+
+                    try {
+                        dbhelper3.addContacts(1,contactmodel);
+                        dbhelper3.DeleteContact(0,contactmodel);
+
+
+
+                    }catch (Exception e){
+                        Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
+                    }
+
                     try{
-                       arrtask.remove(position);  // Remove item from data list
-                       notifyItemRemoved(position);  // Notify adapter about item removal
-                       notifyItemRangeChanged(position, arrtask.size());
-               }catch (Exception e){
-                   Toast.makeText(context, "unknown error occurred, please refresh  ", Toast.LENGTH_SHORT).show();
+                        if (arrtask != null && position >= 0 && position < arrtask.size()) {
+                            arrtask.remove(position);
+                            notifyItemRemoved(position); // Notify the adapter of the item removal
+                            notifyItemRangeChanged(position, arrtask.size());
+                        }
+                    }catch (Exception e) {
+                        Log.d("RecyclerView", ""+e);
 
-
-               }
-                }else
-                {
-                    contactmodel.status=FALSE;
-                    contactmodel.id=arrtask.get(position).ID;
-                    dbhelper3.UpdateContact(contactmodel);
-
-
+                    }
                 }
+                //if ends here
 
             }
         });
@@ -96,7 +100,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 
 
-        if (!arrtask.get(position).status){
+//        if (!arrtask.get(position).status){
             holder.task.setText(arrtask.get(position).task);
             holder.task_details.setText(arrtask.get(position).date+" ,"+arrtask.get(position).time);
 
@@ -127,25 +131,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     delDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            try{
-                                if (arrtask != null && position >= 0 && position < arrtask.size()) {
-                                    arrtask.remove(position);
-                                    notifyItemRemoved(position); // Notify the adapter of the item removal
-                                }
-
-                            }catch (Exception e){
-
-                            }
-
-
                             Contactmodel contactmodel = new Contactmodel();
 //                            ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
                             contactmodel.id=arrtask.get(position).ID;
                             try {
-                                dbhelper3.DeleteContact(contactmodel);
+                                dbhelper3.DeleteContact(0,contactmodel);
 
                             }catch (Exception e){
                                 Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
+                            }
+                            try{
+                                if (arrtask != null && position >= 0 && position < arrtask.size()) {
+                                    arrtask.remove(position);
+                                    notifyItemRemoved(position);
+                                    notifyItemRangeChanged(position, arrtask.size());// Notify the adapter of the item removal
+                                }
+                            }catch (Exception e){
+
                             }
 
 
@@ -183,18 +185,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 //                int stuff = bundle1.getInt("Key");
                 }
             });
-      } else{
-//            holder.task.setText(arrtask.get(position).task);
-//            holder.task_details.setText(arrtask.get(position).date+" ,"+arrtask.get(position).time);
-            try{
-                holder.itemView.setVisibility(View.GONE);
-                holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
-
-            }catch (Exception e){
-                Toast.makeText(context, ""+"here in else ", Toast.LENGTH_SHORT).show();
-            }
-
-        }
+//      } else{
+////            holder.task.setText(arrtask.get(position).task);
+////            holder.task_details.setText(arrtask.get(position).date+" ,"+arrtask.get(position).time);
+//            try{
+//                holder.itemView.setVisibility(View.GONE);
+//                holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+//
+//            }catch (Exception e){
+//                Toast.makeText(context, ""+"here in else ", Toast.LENGTH_SHORT).show();
+//            }
+//
+//        }
 
     }
 

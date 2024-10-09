@@ -141,7 +141,7 @@ public class Update_task extends AppCompatActivity {
                     contactmodel.time=timeText.getText().toString();
                     ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
                     contactmodel.id=arrcontacts.get(position).id;
-                    dbhelper3.UpdateContact(contactmodel);
+                    dbhelper3.UpdateContact(0,contactmodel);
                     Intent home = new Intent(Update_task.this,MainActivity.class);
                     startActivity(home);
                     finish();

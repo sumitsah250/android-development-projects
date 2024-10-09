@@ -41,7 +41,7 @@ public class completed extends Fragment {
         mydbhelper3 dbhelper3;
         dbhelper3 = new mydbhelper3(getActivity().getApplicationContext());
 
-        ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
+        ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect1();
         for(int i=0;i<arrcontacts.size();i++){
             arrTask.add(new TaskModel(arrcontacts.get(i).task,arrcontacts.get(i).date.toString(),arrcontacts.get(i).time,arrcontacts.get(i).status,arrcontacts.get(i).id));
             adapter.notifyItemInserted(arrTask.size()-1);
