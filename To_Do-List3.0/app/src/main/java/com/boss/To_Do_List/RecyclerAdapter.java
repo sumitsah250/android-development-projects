@@ -2,10 +2,8 @@ package com.boss.To_Do_List;
 
 import static android.app.PendingIntent.getActivity;
 
-import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,8 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -29,17 +29,18 @@ import java.util.ArrayList;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>  {
 
 
-    Context context;
+   AppCompatActivity fragment;
     ArrayList<TaskModel> arrtask;
 
-    RecyclerAdapter(Context context,ArrayList<TaskModel> arrtask,int id){
-        this.context=context;
+    RecyclerAdapter(AppCompatActivity fragment, ArrayList<TaskModel> arrtask, int id){
+        this.fragment=fragment;
         this.arrtask=arrtask;
     }
     @NonNull
     @Override
     public RecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.row,parent,false);
+        View view;
+        view = LayoutInflater.from(fragment).inflate(R.layout.row,parent,false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -53,14 +54,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
 
         mydbhelper3 dbhelper3;
-        dbhelper3 = new mydbhelper3(context);
+        dbhelper3 = new mydbhelper3(fragment);
 
 
-        Contactmodel contactmodel = new Contactmodel();
-        contactmodel.id= arrtask.get(position).ID;
-        contactmodel.task=arrtask.get(position).task;
-        contactmodel.time=arrtask.get(position).time;
-        contactmodel.date=arrtask.get(position).date;
+        dbhelpermodel dbhelpermodel = new dbhelpermodel();
+        dbhelpermodel.id= arrtask.get(position).ID;
+        dbhelpermodel.task=arrtask.get(position).task;
+        dbhelpermodel.time=arrtask.get(position).time;
+        dbhelpermodel.date=arrtask.get(position).date;
         holder.task.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             @Override
@@ -68,17 +69,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             {
                 if ( isChecked )
                 {
-                   contactmodel.status=TRUE;
-                   contactmodel.id=arrtask.get(position).ID;
+                   dbhelpermodel.status=TRUE;
+                   dbhelpermodel.id=arrtask.get(position).ID;
 
                     try {
-                        dbhelper3.addContacts(1,contactmodel);
-                        dbhelper3.DeleteContact(0,contactmodel);
+                        dbhelper3.addContacts(1, dbhelpermodel);
+                        dbhelper3.DeleteContact(0, dbhelpermodel);
 
-
+                        Bundle result = new Bundle();
+                        result.putString("data_key", "Your data");
+                        fragment.getSupportFragmentManager().setFragmentResult("requestKey_completed", result);
 
                     }catch (Exception e){
-                        Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(fragment, ""+e, Toast.LENGTH_SHORT).show();
                     }
 
                     try{
@@ -124,21 +127,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 //                    FragmentManager fm = activity.getSupportFragmentManager();
 //                    newFragment.show(fm, "fragment_alert");
 
-                    androidx.appcompat.app.AlertDialog.Builder delDialog = new AlertDialog.Builder(context);
+                    androidx.appcompat.app.AlertDialog.Builder delDialog = new AlertDialog.Builder(fragment);
                     delDialog.setTitle("Are you sure ");
                     delDialog.setMessage("Do you want to remove this item ?");
                     delDialog.setIcon(R.drawable.icons8_delete);
                     delDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Contactmodel contactmodel = new Contactmodel();
-//                            ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
-                            contactmodel.id=arrtask.get(position).ID;
+                            dbhelpermodel dbhelpermodel = new dbhelpermodel();
+//                            ArrayList<dbhelpermodel> arrcontacts = dbhelper3.getcontect();
+                            dbhelpermodel.id=arrtask.get(position).ID;
                             try {
-                                dbhelper3.DeleteContact(0,contactmodel);
+                                dbhelper3.DeleteContact(0, dbhelpermodel);
 
                             }catch (Exception e){
-                                Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(fragment, ""+e, Toast.LENGTH_SHORT).show();
                             }
                             try{
                                 if (arrtask != null && position >= 0 && position < arrtask.size()) {
@@ -165,7 +168,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     try {
                         delDialog.show();
                     }catch(Exception e){
-                        Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(fragment, ""+e, Toast.LENGTH_SHORT).show();
                     }
 
                     return true;
@@ -178,9 +181,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 public void onClick(View v) {
                     Bundle args = new Bundle();
                     args.putInt("key",position);
-                    Intent home = new Intent(context,Update_task.class);
+                    Intent home = new Intent(fragment,Update_task.class);
                     home.putExtras(args);
-                    context.startActivity(home);
+                    fragment.startActivity(home);
 //                Bundle bundle1 = getIntent().getExtras();
 //                int stuff = bundle1.getInt("Key");
                 }

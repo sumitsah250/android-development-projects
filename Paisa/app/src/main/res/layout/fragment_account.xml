@@ -56,7 +56,7 @@
 
         <ImageView
             android:id="@+id/previousDatebtn"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_chevron" />
 
@@ -72,7 +72,7 @@
 
         <ImageView
             android:id="@+id/nextDatebtn"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:rotation="180"
             app:srcCompat="@drawable/ic_chevron" />

@@ -47,10 +47,10 @@ public class my_custom_dialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if(position>=0){
-                    Contactmodel contactmodel = new Contactmodel();
-                    ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
-                    contactmodel.id=arrcontacts.get(position).id;
-                    dbhelper3.DeleteContact(0,contactmodel);
+                    dbhelpermodel dbhelpermodel = new dbhelpermodel();
+                    ArrayList<dbhelpermodel> arrcontacts = dbhelper3.getcontect();
+                    dbhelpermodel.id=arrcontacts.get(position).id;
+                    dbhelper3.DeleteContact(0, dbhelpermodel);
 //                    MainActivity.refresh1();
 
                     dismiss();

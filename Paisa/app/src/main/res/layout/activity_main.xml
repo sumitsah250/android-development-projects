@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@color/orange"
         android:minHeight="?attr/actionBarSize"
+        app:subtitleTextColor="@color/white"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

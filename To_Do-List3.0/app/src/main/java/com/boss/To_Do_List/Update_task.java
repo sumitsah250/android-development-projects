@@ -58,7 +58,7 @@ public class Update_task extends AppCompatActivity {
 
 
         ArrayList<TaskModel> arrTask= new ArrayList<>();
-        ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
+        ArrayList<dbhelpermodel> arrcontacts = dbhelper3.getcontect();
         for(int i=0;i<arrcontacts.size();i++){
             arrTask.add(new TaskModel(arrcontacts.get(i).task,arrcontacts.get(i).date.toString(),arrcontacts.get(i).time,arrcontacts.get(i).status));
         }
@@ -108,7 +108,7 @@ public class Update_task extends AppCompatActivity {
         btnAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Contactmodel data = null;
+                dbhelpermodel data = null;
 //                edttask.setText(arrTask.get(position).task);
 //                dateText.setText(arrTask.get(position).date);
 //                timeText.setText(arrTask.get(position).time);
@@ -133,16 +133,19 @@ public class Update_task extends AppCompatActivity {
                                 Toast.makeText(Update_task.this, "time missing", Toast.LENGTH_SHORT).show();
                 }
                 if(!task1.toString().equals("") && !dateText.toString().equals("") && !timeText.toString().equals("")){
-                    Contactmodel contactmodel = new Contactmodel();
-                    contactmodel.id=position;
+                    dbhelpermodel dbhelpermodel = new dbhelpermodel();
+                    dbhelpermodel.id=position;
 
-                    contactmodel.task=edttask.getText().toString();
-                    contactmodel.date=dateText.getText().toString();
-                    contactmodel.time=timeText.getText().toString();
-                    ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
-                    contactmodel.id=arrcontacts.get(position).id;
-                    dbhelper3.UpdateContact(0,contactmodel);
+                    dbhelpermodel.task=edttask.getText().toString();
+                    dbhelpermodel.date=dateText.getText().toString();
+                    dbhelpermodel.time=timeText.getText().toString();
+                    ArrayList<dbhelpermodel> arrcontacts = dbhelper3.getcontect();
+                    dbhelpermodel.id=arrcontacts.get(position).id;
+                    dbhelper3.UpdateContact(0, dbhelpermodel);
                     Intent home = new Intent(Update_task.this,MainActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("key", "value");
+                    home.putExtras(bundle);
                     startActivity(home);
                     finish();
                 }

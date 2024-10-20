@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -18,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+        <activity
+            android:name=".sp"
+            android:exported="false" />
         <activity
             android:name=".Update_task"
             android:exported="false" />
@@ -37,9 +42,10 @@
             android:name=".MainActivity"
             android:exported="true" />
 
-        <receiver android:name="com.boss.gpt.NotificationReceiver"/>
-
-
+        <receiver android:name="com.boss.gpt.NotificationReceiver" /> <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3293830853390658~2341380502" />
     </application>
 
 </manifest>

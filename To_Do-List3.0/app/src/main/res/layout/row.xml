@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        app:cardCornerRadius="5dp"
+        app:cardCornerRadius="7dp"
          app:cardUseCompatPadding="true"
         android:layout_margin="7dp"
         android:layout_height="wrap_content">
@@ -22,7 +22,8 @@
             android:text="default"
             android:id="@+id/task"
             android:layout_marginBottom="18dp"
-            android:textSize="25dp">
+            android:layout_marginLeft="8dp"
+            android:textSize="28dp">
 
         </CheckBox>
         <TextView
@@ -32,6 +33,7 @@
             android:textSize="18dp"
             android:id="@+id/task_details"
             android:layout_marginLeft="30dp"
+            android:layout_marginBottom="10dp"
             >
         </TextView>
         </LinearLayout>

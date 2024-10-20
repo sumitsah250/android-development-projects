@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/app_colour"
     tools:context=".remaining"
     android:orientation="vertical">
 
@@ -12,26 +13,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/remaining_recycler"
-            android:background="#fff"
+
+            android:background="@color/app_colour"
             >
         </androidx.recyclerview.widget.RecyclerView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:baselineAlignBottom="true"
+            android:id="@+id/remaining_opendialog"
+            android:layout_width="75dp"
+            android:layout_height="122dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="42dp"
+            android:layout_marginBottom="30dp"
             android:background="@color/app_colour"
+            android:baselineAlignBottom="true"
             android:src="@drawable/baseline_add_24"
-            android:layout_margin="25dp"
-            android:id="@+id/remaining_opendialog"
-            >
+            app:fabCustomSize="65dp">
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-
-
 
 
 </RelativeLayout>

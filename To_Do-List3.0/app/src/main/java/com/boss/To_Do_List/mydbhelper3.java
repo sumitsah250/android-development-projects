@@ -70,7 +70,7 @@ public class mydbhelper3 extends SQLiteOpenHelper {
 //        db.close();
 
     }
-    void addContacts(int a,Contactmodel arrtask) {
+    void addContacts(int a, dbhelpermodel arrtask) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 //        cv.put(KEY_ID,new Date().getTime());
@@ -95,13 +95,13 @@ public class mydbhelper3 extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<Contactmodel> getcontect() {
+    public ArrayList<dbhelpermodel> getcontect() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(" SELECT * FROM " + TABLE_CONTACT, null);
-        ArrayList<Contactmodel> arrcontacts = new ArrayList<>();
+        ArrayList<dbhelpermodel> arrcontacts = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            Contactmodel model = new Contactmodel();
+            dbhelpermodel model = new dbhelpermodel();
             model.id = cursor.getInt(0);
             model.date = cursor.getString(1);
             model.task = cursor.getString(2);
@@ -111,13 +111,13 @@ public class mydbhelper3 extends SQLiteOpenHelper {
         }
         return arrcontacts;
     }
-    public ArrayList<Contactmodel> getcontect1() {
+    public ArrayList<dbhelpermodel> getcontect1() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(" SELECT * FROM " + TABLE_COMPLETED, null);
-        ArrayList<Contactmodel> arrcontacts = new ArrayList<>();
+        ArrayList<dbhelpermodel> arrcontacts = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            Contactmodel model = new Contactmodel();
+            dbhelpermodel model = new dbhelpermodel();
             model.id = cursor.getInt(0);
             model.date = cursor.getString(1);
             model.task = cursor.getString(2);
@@ -128,35 +128,35 @@ public class mydbhelper3 extends SQLiteOpenHelper {
         return arrcontacts;
     }
 
-    public void UpdateContact(int a,Contactmodel contactmodel) {
+    public void UpdateContact(int a, dbhelpermodel dbhelpermodel) {
         if(a==0){
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues cv = new ContentValues();
-            cv.put(KEY_NAME, contactmodel.task);
-            cv.put(KEY_Date, contactmodel.date);
-            cv.put(KEY_TIME, contactmodel.time);
-            cv.put(KEY_STATUS,contactmodel.status);
-            db.update(TABLE_CONTACT, cv, KEY_ID + " = " + contactmodel.id, null);
+            cv.put(KEY_NAME, dbhelpermodel.task);
+            cv.put(KEY_Date, dbhelpermodel.date);
+            cv.put(KEY_TIME, dbhelpermodel.time);
+            cv.put(KEY_STATUS, dbhelpermodel.status);
+            db.update(TABLE_CONTACT, cv, KEY_ID + " = " + dbhelpermodel.id, null);
         }else{
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues cv = new ContentValues();
-            cv.put(KEY_NAME, contactmodel.task);
-            cv.put(KEY_Date, contactmodel.date);
-            cv.put(KEY_TIME, contactmodel.time);
-            cv.put(KEY_STATUS,contactmodel.status);
-            db.update(TABLE_COMPLETED, cv, KEY_ID + " = " + contactmodel.id, null);
+            cv.put(KEY_NAME, dbhelpermodel.task);
+            cv.put(KEY_Date, dbhelpermodel.date);
+            cv.put(KEY_TIME, dbhelpermodel.time);
+            cv.put(KEY_STATUS, dbhelpermodel.status);
+            db.update(TABLE_COMPLETED, cv, KEY_ID + " = " + dbhelpermodel.id, null);
 
         }
 
     }
 
-    public void DeleteContact(int a,Contactmodel contactmodel) {
+    public void DeleteContact(int a, dbhelpermodel dbhelpermodel) {
         if(a==0){
             SQLiteDatabase db = this.getWritableDatabase();
-            db.delete(TABLE_CONTACT, KEY_ID + " = ?", new String[]{String.valueOf(contactmodel.id)});
+            db.delete(TABLE_CONTACT, KEY_ID + " = ?", new String[]{String.valueOf(dbhelpermodel.id)});
         }else{
             SQLiteDatabase db = this.getWritableDatabase();
-            db.delete(TABLE_COMPLETED, KEY_ID + " = ?", new String[]{String.valueOf(contactmodel.id)});
+            db.delete(TABLE_COMPLETED, KEY_ID + " = ?", new String[]{String.valueOf(dbhelpermodel.id)});
         }
 
     }

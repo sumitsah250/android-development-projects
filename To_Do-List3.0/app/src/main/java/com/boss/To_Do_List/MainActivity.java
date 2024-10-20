@@ -6,9 +6,11 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.WindowMetrics;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -23,6 +25,10 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -31,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     TabLayout Tab;
     ViewPager viewPager;
     public static SwipeRefreshLayout refresh;
+    private static String AD_UNIT_ID="ca-app-pub-3293830853390658/5022981211";
+    private static String TEST_AD_UNIT_ID="ca-app-pub-3940256099942544/9214589741";
 
 
 
@@ -48,6 +56,18 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        new Thread(
+                () -> {
+                    // Initialize the Google Mobile Ads SDK on a background thread.
+                    MobileAds.initialize(this, initializationStatus -> {});
+                })
+                .start();
+
+          //for ads
+        loadbanner();
+        //for ads
+
         // to eliminate dark mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         // to eliminate dark mode
@@ -129,4 +149,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // for toolbar
+    private void loadbanner(){
+        AdView adView = new AdView(this);
+        adView.setAdUnitId(TEST_AD_UNIT_ID);
+        adView.setAdSize(getAdSize());
+
+        AdView adContainerView = findViewById(R.id.bannerAds);
+        adContainerView.removeAllViews();
+        adContainerView.addView(adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
+
+
+
+
+    }
+    private AdSize getAdSize(){
+        //calculate with pixels
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int addWidthPixels = displayMetrics.widthPixels;
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.R){
+            WindowMetrics windowMetrics = getWindowManager().getCurrentWindowMetrics();
+           addWidthPixels=windowMetrics.getBounds().width();
+        }
+
+        //calculate density
+        float density = displayMetrics.density;
+        //calculate adwidht
+        int adWidth = (int) (addWidthPixels/density);
+        return AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(this,adWidth);
+
+    }
+
+
 }

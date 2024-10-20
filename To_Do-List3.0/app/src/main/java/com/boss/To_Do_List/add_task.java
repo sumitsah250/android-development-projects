@@ -79,7 +79,7 @@ public class add_task extends AppCompatActivity {
         ArrayList<TaskModel> arrTask= new ArrayList<>();
         mydbhelper3 dbhelper3;
         dbhelper3 = new mydbhelper3(this);
-        ArrayList<Contactmodel> arrcontacts = dbhelper3.getcontect();
+        ArrayList<dbhelpermodel> arrcontacts = dbhelper3.getcontect();
         for(int i=0;i<arrcontacts.size();i++){
             arrTask.add(new TaskModel(arrcontacts.get(i).task,arrcontacts.get(i).date.toString(),arrcontacts.get(i).time,arrcontacts.get(i).status));
 
@@ -120,7 +120,7 @@ public class add_task extends AppCompatActivity {
                 btnAction.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Contactmodel data = null;
+                        dbhelpermodel data = null;
                         String task1 ="";
                         String date1= "";
                         String time1="";
@@ -155,7 +155,7 @@ public class add_task extends AppCompatActivity {
                             int hour = notihour;
                             int minute = notimin;
                             long timeInMillis = getMilliseconds(notiyear,notimonth,notiday,notihour, notimin);
-                            testTimeDifference(notiyear,notimonth,notiday,notihour, notimin);
+//                            testTimeDifference(notiyear,notimonth,notiday,notihour, notimin);
 
                             scheduleNotification( add_task.this, task1, time1+","+date1, timeInMillis, (int) System.currentTimeMillis());
 

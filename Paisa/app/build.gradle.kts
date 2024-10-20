@@ -1,13 +1,12 @@
 
 plugins {
     alias(libs.plugins.androidApplication)
-
 }
 
 apply(plugin = "realm-android")
 
 android {
-    namespace = "com.example.expense_manager"
+    namespace = "com.paisa.expense_manager"
     compileSdk = 34
 
 
@@ -15,7 +14,7 @@ android {
     defaultConfig {
 
 
-        applicationId = "com.example.expense_manager"
+        applicationId = "com.paisa.expense_manager"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
