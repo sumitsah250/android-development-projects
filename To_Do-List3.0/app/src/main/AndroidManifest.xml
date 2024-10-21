@@ -21,6 +21,9 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".Rewards"
+            android:exported="false" />
+        <activity
             android:name=".sp"
             android:exported="false" />
         <activity
@@ -45,7 +48,7 @@
         <receiver android:name="com.boss.gpt.NotificationReceiver" /> <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3293830853390658~2341380502" />
+            android:value="ca-app-pub-8523770818071031~1848396228" />
     </application>
 
 </manifest>

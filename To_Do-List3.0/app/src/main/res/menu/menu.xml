@@ -13,5 +13,11 @@
         android:icon="@drawable/baseline_file_open_24"
         app:showAsAction="collapseActionView"
         />
+    <item
+        android:id="@+id/toolbar_Rewards"
+        android:title="Rewards"
+        android:icon="@drawable/info_button_svgrepo_com"
+        app:showAsAction="collapseActionView"
+        />
 
 </menu>

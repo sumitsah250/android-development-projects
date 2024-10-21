@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowMetrics;
 
 import androidx.activity.EdgeToEdge;
@@ -25,9 +26,11 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.tabs.TabLayout;
 
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     TabLayout Tab;
     ViewPager viewPager;
     public static SwipeRefreshLayout refresh;
-    private static String AD_UNIT_ID="ca-app-pub-3293830853390658/5022981211";
+    private static String AD_UNIT_ID="ca-app-pub-8523770818071031/1597948933";
     private static String TEST_AD_UNIT_ID="ca-app-pub-3940256099942544/9214589741";
 
 
@@ -65,7 +68,26 @@ public class MainActivity extends AppCompatActivity {
                 .start();
 
           //for ads
-        loadbanner();
+        AdView adView = new AdView(this);
+        adView.setAdUnitId(AD_UNIT_ID);
+        adView.setAdSize(getAdSize());
+
+        AdView adContainerView = findViewById(R.id.bannerAds);
+        adContainerView.removeAllViews();
+        adContainerView.addView(adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                adContainerView.setVisibility(View.VISIBLE);  // Show ad when loaded
+            }
+
+            @Override
+            public void onAdFailedToLoad(LoadAdError adError) {
+                adContainerView.setVisibility(View.GONE);  // Hide ad when failed
+            }
+        });
         //for ads
 
         // to eliminate dark mode
@@ -138,7 +160,12 @@ public class MainActivity extends AppCompatActivity {
         } else if(itemId==R.id.toolbar_completed){
             Tab.setScrollX(Tab.getWidth());
             Tab.getTabAt(1).select();
-        }else if(itemId==android.R.id.home){
+
+        } else if(itemId==R.id.toolbar_Rewards){
+            startActivity(new Intent(MainActivity.this,Rewards.class));
+
+        }
+        else if(itemId==android.R.id.home){
             super.getOnBackPressedDispatcher();
             super.onBackPressed();
         }
@@ -149,22 +176,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // for toolbar
-    private void loadbanner(){
-        AdView adView = new AdView(this);
-        adView.setAdUnitId(TEST_AD_UNIT_ID);
-        adView.setAdSize(getAdSize());
-
-        AdView adContainerView = findViewById(R.id.bannerAds);
-        adContainerView.removeAllViews();
-        adContainerView.addView(adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
-
-
-
-
-
-    }
+//    private void loadbanner(){
+//        AdView adView = new AdView(this);
+//        adView.setAdUnitId(AD_UNIT_ID);
+//        adView.setAdSize(getAdSize());
+//
+//        AdView adContainerView = findViewById(R.id.bannerAds);
+//        adContainerView.removeAllViews();
+//        adContainerView.addView(adView);
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        adView.loadAd(adRequest);
+//
+//    }
     private AdSize getAdSize(){
         //calculate with pixels
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
