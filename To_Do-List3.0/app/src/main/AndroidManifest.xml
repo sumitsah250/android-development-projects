@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
 
     <application
         android:allowBackup="true"
@@ -22,9 +23,6 @@
         tools:targetApi="31">
         <activity
             android:name=".Rewards"
-            android:exported="false" />
-        <activity
-            android:name=".sp"
             android:exported="false" />
         <activity
             android:name=".Update_task"
@@ -48,7 +46,10 @@
         <receiver android:name="com.boss.gpt.NotificationReceiver" /> <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-8523770818071031~1848396228" />
+            android:value="ca-app-pub-8523770818071031~1848396228"
+            />
+        <!-- For apps targeting Android 13 or higher & GMA SDK version 20.3.0 or lower -->
+
     </application>
 
 </manifest>

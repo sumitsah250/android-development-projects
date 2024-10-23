@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_colour"
+    android:backgroundTint="#4169E1"
     tools:context=".Rewards">
 
     <TextView
